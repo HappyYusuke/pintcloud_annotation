@@ -109,7 +109,7 @@
    独自データを格納（⚠️: 点群データは拡張子が`.pcd`です。）
    
    ```bash
-   cp -r /path/to/your/data_directory/*.pcd input/my_data/20251015_my_data/pointclouds
+   cp /path/to/your/data_directory/*.pcd input/my_data/20251015_my_data/pointclouds
    ```
    
 2. 設定ファイルの編集 </br>
