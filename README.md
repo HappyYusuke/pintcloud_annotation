@@ -112,7 +112,7 @@
    cp -r /path/to/your/data_directory/*.pcd input/my_data/20251015_my_data/pointclouds
    ```
    
-3. 設定ファイルの編集
+2. 設定ファイルの編集 </br>
    `bat-3d/config/config.json`の以下の部分を書き換えてください。
    * name: ディレクトリ名（例：my_data）
    * sequences: シーケンス名（例：20251015_my_data）
@@ -139,21 +139,21 @@
    // ==========================================
    ```
    
-5. PHP Storm起動
+3. PHP Storm起動 </br>
    設定ファイルの変更を保存したら、PHP Stormを起動します。
    ```bash
    bash $HOME/PhpStorm-252.26830.95/bin/phpstorm.sh
    ```
    
-7. bat-3d起動
+4. bat-3d起動 </br>
    * PHP Stormのウィンドウが立ち上がったら、PHP Stormから`bat-3d`のディレクトリを開いてください。
    * ウィンドウ左側のファイルツリーから`index.html`を右クリックしてください。
    * 「開く」 => 「ブラウザ」 => 「Chrome」の順に選択してください。（ブラウザはChrome以外でもOKです）
    * ブラウザでbat-3dが立ち上がります。
    
-9. データの読み込み
+5. データの読み込み </br>
    * 画面右側の`Choose dataset`を「NuScenes」から自身で設定したデータセット名にしてください。（例：my_data）
    * １個下の`Choose Sequence`を「ONE」から自身で設定したシーケンス名にしてください。（例：20251015_my_data）
    * データが表示されまず。
    
-11.  アノテーション（Comming soon ...）
+6.  アノテーション（Comming soon ...）
