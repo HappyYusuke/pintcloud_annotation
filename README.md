@@ -1,4 +1,4 @@
-# pintcloud_annotation
+# pointcloud_annotation
 本リポジトリは、[bat-3d](https://github.com/walzimmer/bat-3d.git)のREADMEに情報が足りないため作成しました。
 最初に[3d-bat](https://github.com/walzimmer/3d-bat.git)を試しましたが、動作しなかったのでbat-3dの使い方を説明します。
 本リポジトリで想定している使用方法は以下の通りですが、本家のREADMEによるとWindowsでも使用できるようです。
