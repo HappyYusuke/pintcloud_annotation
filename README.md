@@ -6,6 +6,15 @@
 * Google Chrome
 * 点群のみのアノテーション
 
+内容物
+* base_label_tools.js, config.json
+  > bat-3dの設定ファイルたち。
+* input
+  > bat-3dに入れるデータのファイルツリー
+* tools
+  > 点群のファイルの形式を変換するためのツール
+
+
 # Installation
 1. bat-3dと本リポジトリをクローン
    ```bash
