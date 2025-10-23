@@ -3,7 +3,6 @@
 ros2 run pcl_ros pointcloud_to_pcd --ros-args \
     -r input:=/livox/lidar \
     -p fixed_frame:=livox_frame \
-    -p prefix:=/home/demulab-kohei/tmp/
+    -p prefix:=/path/to/your/output/dir/path/filename_
 
-#/path/to/your/output/dir/path/filename_
 
