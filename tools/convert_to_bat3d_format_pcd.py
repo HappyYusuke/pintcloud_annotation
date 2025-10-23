@@ -1,14 +1,21 @@
 import os
+import argparse
 
 # --- 設定項目 ---
 
-# 変換元のASCII PCDファイルが入っているディレクトリ
-# (例: x y z intensity tag line timestamp ... というフィールドを持つPCD)
-path_in = f'/path/to/your/input/path'
+# 変換元のASCII PCDファイルが入っているディレクトリまでのパス
+# コマンドラインから引数を取得
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--input", type=str, help="Your input path.")
+parser.add_argument("-s", "--savename", type=str, default='convert_results', help="Save directory name.")
+args = parser.parse_args()
 
-# 変換後のPCDファイルを保存するディレクトリ
+# (例: x y z intensity tag line timestamp ... というフィールドを持つPCD)
+base_path = args.input
+
+# 変換後のPCDファイルを保存するディレクトリ名を指定
 # (bat-3dが読み込む x y z intensity のみ、ASCII形式)
-path_out = f'/path/to/your/output/path'
+output_name = args.savename
 
 # --- スクリプト本体 ---
 
@@ -41,7 +48,6 @@ def read_and_reformat_ascii(filepath):
                     continue # 予期しない行はスキップ
                 
                 try:
-                    # Z軸のフィルタリングを削除
                     # (元のファイルに4つ以上フィールドがあっても、最初の4つだけ使う)
                     
                     # データが数値として有効かどうかの簡易チェック
@@ -54,11 +60,11 @@ def read_and_reformat_ascii(filepath):
                     reformatted_points_lines.append(reformatted_line)
                 except ValueError:
                     # floatに変換できない行（不正なデータ）はスキップ
-                    print(f"  警告: スキップされた不正な行: {line}")
+                    print(f"  Warning: Skipped: {line}")
                     continue
                     
     except Exception as e:
-        print(f"  エラー: ファイル '{filepath}' の読み込み中に失敗: {e}")
+        print(f"  Error: Loading failed '{filepath}': {e}")
         return None
 
     return reformatted_points_lines
@@ -90,7 +96,7 @@ def save_ascii_pcd(filepath, points_lines):
             f.write(header)
             f.writelines(points_lines) # フィルタリング済みの行をすべて書き込む
     except Exception as e:
-        print(f"  エラー: ファイル '{filepath}' への書き込み中に失敗: {e}")
+        print(f"  Error: Failed to write to '{filepath}': {e}")
         return False
         
     return True
@@ -99,28 +105,30 @@ def convert_and_filter():
     """
     メインの処理関数。
     """
-    if not os.path.exists(path_in):
-        print(f"エラー: 入力ディレクトリが見つかりません: {path_in}")
+    if not os.path.exists(base_path):
+        print(f"Error: Not found: {base_path}")
         return
 
-    os.makedirs(path_out, exist_ok=True)
+    # 保存先のパスを生成
+    parent_path = os.path.abspath(os.path.join(base_path, os.pardir))
+    output_path = os.path.join(parent_path, output_name)
+    os.makedirs(output_path, exist_ok=True)
     
-    print(f"処理を開始します...")
-    print(f"入力 (ASCII): {path_in}")
-    print(f"出力 (bat-3d ASCII): {path_out}")
-    print("Z軸フィルタリングは行いません。")
+    print(f"Start processing ...")
+    print(f"Input (ASCII): {base_path}")
+    print(f"Output (bat-3d ASCII): {output_path}")
     print("-" * 30)
 
     total_files = 0
     success_files = 0
 
-    for filename in sorted(os.listdir(path_in)):
+    for filename in sorted(os.listdir(base_path)):
         if filename.endswith(".pcd"):
             total_files += 1
-            input_filepath = os.path.join(path_in, filename)
-            output_filepath = os.path.join(path_out, filename)
+            input_filepath = os.path.join(base_path, filename)
+            output_filepath = os.path.join(output_path, filename)
             
-            print(f"処理中: {filename}")
+            print(f"Processing: {filename}")
             
             # 1. ASCIIで読み込み、フォーマット変換
             formatted_lines = read_and_reformat_ascii(input_filepath)
@@ -128,15 +136,15 @@ def convert_and_filter():
             if formatted_lines is not None:
                 # 2. bat-3d形式でASCII保存
                 if save_ascii_pcd(output_filepath, formatted_lines):
-                    print(f"  -> 成功: {len(formatted_lines)} 点を '{output_filepath}' に保存しました。")
+                    print(f"  -> Success: {len(formatted_lines)} points saved to '{output_filepath}'")
                     success_files += 1
                 else:
-                    print(f"  -> 失敗: ファイルの保存に失敗しました。")
+                    print(f"  -> Failed: Failed to save file.")
             else:
-                 print(f"  -> 失敗: ファイルの読み込みに失敗しました。")
+                 print(f"  -> Failed: Failed to load file")
 
     print("-" * 30)
-    print(f"処理完了: {total_files} ファイル中 {success_files} ファイルの処理に成功しました。")
+    print(f"Finished: Success -> {total_files} / {success_files}")
 
 # スクリプトの実行
 if __name__ == "__main__":
