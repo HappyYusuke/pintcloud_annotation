@@ -22,7 +22,7 @@
    git clone https://github.com/walzimmer/bat-3d.git
 
    # 本リポジトリ
-   git clone https://github.com/HappyYusuke/pintcloud_annotation.git
+   git clone https://github.com/HappyYusuke/pointcloud_annotation.git
    ```
    
 2. npmをインストール
@@ -49,7 +49,7 @@
 6. 本リポジトリのファイルと置換
    ```bash
    # ホームディレクトリに移動
-   cd $HOME/pointcloud_annotation
+   cd $HOME
 
    # 元のファイルを削除
    rm bat-3d/js/base_label_tool.js bat-3d/config/config.json
