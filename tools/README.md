@@ -8,7 +8,7 @@
 * pcdファイルを、bat-3d用のフォーマットに変換
   > convert_to_bat3d_format_pcd.py
 
-* pcdファイルをランダムに抽出 & ファイル名をbat-3d用に変換
+* pcdファイルをランダムに抽出 & ファイル名をbat-3d用に変換 (6桁の数字で構成、例: `000000.pcd`)
   > random_sampling_pcdfiles.py
 
 * 点群から地面を削除する
@@ -110,14 +110,15 @@ python3 convert_to_bat3d_format_pcd.py -i /path/to/your/pcd
 | --- | --- | --- |
 | `-i` or `--input` | - | 親ディレクトリまでのパスを指定。 |
 | `-s` or `--savename` | `random_results` | 保存するディレクトリ名を指定。 |
+| `-n` or `--num` | `85` | 各子ディレクトリからのサンプリング数 |
 
 ファイルツリーを以下のようにする。
 ```
 parent_directory   # 親ディレクトリ
 ├── child1         # 子ディレクトリ
-│   ├── 000001.pcd # pcdファイル
-│   ├── 000002.pcd
-│   └── 000003.pcd
+│   ├── hogehoge.pcd # pcdファイル
+│   ├── hogehoge.pcd
+│   └── hogehoge.pcd
 ├── child2
 └── child3
 ```
@@ -125,10 +126,39 @@ parent_directory   # 親ディレクトリ
 引数を指定して`convert_to_bat3d_format_pcd.py`を実行。<br>
 パスの指定は親ディレクトリを指定する。
 ```bash
-python3 random_sampling_pcdfiles.py -i /path/to/your/parent_directory
+python3 random_sampling_pcdfiles.py -i /path/to/your/parent_directory -n 100
 ```
 
 実行結果は、指定したディレクトリと同じ階層に保存される。
 
 ## Remove the ground
+`export_pointcloud_without_ground_nuscenes.py`を使用する。<br>
+`export_pointcloud_without_ground_nuscenes.py`を開く。
+```bash
+cd ~/bat-3d/scripts/nuscenes_devkit/python-sdk/scripts
+vim export_pointcloud_without_ground_nuscenes.py
+```
 
+3〜4行目の`path_in`と`path_out`を変更する。<br>
+
+16行目の`z_value`の閾値を自分の環境に合わせて変更する。
+```py
+for file in sorted(os.listdir(path_in)):
+    lines = []
+    pointcloud_without_ground = []
+    with open(path_in + file) as file_reader:
+        print(file_reader)
+        lines = file_reader.readlines()
+    for i in range(len(lines)):
+        if i < 11:
+            continue
+        point_array = lines[i].split(" ")
+        z_value = float(point_array[2])
+        if z_value > -1.7:  # <--ここを変更する
+            pointcloud_without_ground.append(lines[i])
+```
+
+スクリプトを実行する。
+```bash
+python3 export_pointcloud_without_ground_nuscenes.py
+```
