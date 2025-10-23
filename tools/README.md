@@ -23,17 +23,20 @@
 # Installation
 本リポジトリをクローン
 ```bash
+cd ~/
 git clone https://github.com/HappyYusuke/pointcloud_annotation.git
 ```
 
-
 ## perception_pcl
-[perception_pcl](https://github.com/ros-perception/perception_pcl.git)にはInstallationが書かれておらず、主はHumbleでまともに動かなかったので、ここにインストール方法を残しておきます。
+[perception_pcl](https://github.com/ros-perception/perception_pcl.git)にはInstallationが書かれておらず、主はHumbleでビルドエラーが発生したので、ここにインストール方法を残しておきます。<br>
 
-`humble`ブランチのリポジトリをros2ワークスペースにクローン
+> [!WARNING]
+> ここでは`pointcloud_to_pcd`のみ使用したいため、ビルドエラーの箇所をコメントアウトした`CMakeLists.txt`に置換します。
+
+`ros2`ブランチのリポジトリをros2ワークスペースにクローン
 ```bash
 cd ~/ros2_ws/src
-git clone https://github.com/ros-perception/perception_pcl.git -b humble
+git clone -b ros2 https://github.com/ros-perception/perception_pcl.git
 ```
 
 依存関係をインストール
@@ -42,9 +45,10 @@ cd ~/ros2_ws
 rosdep install -i --from-path src --rosdistro humble -y
 ```
 
-ファイルを置換
+`pcl_ros`の`CMakeLists.txt`を置換
 ```bash
-
+rm ~/ros2_ws/src/perception_pcl/pcl_ros/CMakeLists.txt
+mv ~/pointcloud_annotation/tools/CMakeLists.txt ~/ros2_ws/src/perception_pcl/pcl_ros
 ```
 
 ビルド
