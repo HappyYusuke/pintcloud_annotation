@@ -28,7 +28,7 @@ git clone https://github.com/HappyYusuke/pointcloud_annotation.git
 ```
 
 ## perception_pcl
-[perception_pcl](https://github.com/ros-perception/perception_pcl.git)にはInstallationが書かれておらず、主はHumbleでビルドエラーが発生したので、ここにインストール方法を残しておきます。<br>
+[perception_pcl](https://github.com/ros-perception/perception_pcl.git)にはInstallationが書かれておらず、主はHumbleでビルドエラーが発生したので、ここにインストール方法を残す。<br>
 
 > [!WARNING]
 > ここでは`pointcloud_to_pcd`のみ使用したいため、ビルドエラーの箇所をコメントアウトした`CMakeLists.txt`に置換します。
@@ -59,7 +59,8 @@ source install/setup.bash
 
 # Usage
 ## rosbag2 to pcd
-`pointcloud_to_pcd.sh`を書き換えるためにエディタで開く
+`pointcloud_to_pcd.sh`を使用する。
+`pointcloud_to_pcd.sh`を開く。
 ```bash
 cd ~/pointcloud_annotation
 vim pointcloud_to_pcd.sh
@@ -85,11 +86,8 @@ rosbag2を再生する
 ros2 bag play yourbag
 ```
 
-## Convert pcd to bat-3d format
-引数を指定して`convert_to_bat3d_format_pcd.py`を実行。
-```bash
-python3 convert_to_bat3d_format_pcd.py -i /path/to/your/pcd 
-```
+## Convert pcd files to bat-3d format
+`convert_to_bat3d_format_pcd.py`を使用する。
 
 引数は以下の通り。
 | 引数 | 初期値 | 内容 |
@@ -97,8 +95,40 @@ python3 convert_to_bat3d_format_pcd.py -i /path/to/your/pcd
 | `-i` or `--input` | - | pcdファイルが格納されているディレクトリまでのパスを指定。 |
 | `-s` or `--savename` | `convert_results` | 保存するディレクトリ名を指定。 |
 
-## Random sampling pcd & Convert filename
+引数を指定して`convert_to_bat3d_format_pcd.py`を実行。
+```bash
+python3 convert_to_bat3d_format_pcd.py -i /path/to/your/pcd 
+```
 
+実行結果は、指定したディレクトリと同じ階層に保存される。
+
+## Random sampling pcd & Convert filename
+`random_sampling_pcdfiles.py`を使用する。
+
+引数は以下の通り。
+| 引数 | 初期値 | 内容 |
+| --- | --- | --- |
+| `-i` or `--input` | - | 親ディレクトリまでのパスを指定。 |
+| `-s` or `--savename` | `random_results` | 保存するディレクトリ名を指定。 |
+
+ファイルツリーを以下のようにする。
+```
+parent_directory   # 親ディレクトリ
+├── child1         # 子ディレクトリ
+│   ├── 000001.pcd # pcdファイル
+│   ├── 000002.pcd
+│   └── 000003.pcd
+├── child2
+└── child3
+```
+
+引数を指定して`convert_to_bat3d_format_pcd.py`を実行。<br>
+パスの指定は親ディレクトリを指定する。
+```bash
+python3 random_sampling_pcdfiles.py -i /path/to/your/parent_directory
+```
+
+実行結果は、指定したディレクトリと同じ階層に保存される。
 
 ## Remove the ground
 
