@@ -9,6 +9,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--input", type=str, help="Your input path.")
 parser.add_argument("-s", "--savename", type=str, default='random_results', help="Save directory name.")
+parser.add_argument("-n", "--num", type=int, default=85, help="Number to copy from each child directory.")
 args = parser.parse_args()
 
 # ディレクトリが存在するベースパス
@@ -19,7 +20,7 @@ base_path = args.input
 output_dir = args.savename
 
 # 各ディレクトリから抽出するファイル数
-files_to_sample_per_dir = 85
+files_to_sample_per_dir = args.num
 
 # --- 設定ここまで ---
 
