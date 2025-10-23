@@ -54,6 +54,51 @@ mv ~/pointcloud_annotation/tools/CMakeLists.txt ~/ros2_ws/src/perception_pcl/pcl
 ビルド
 ```bash
 colcon build --symlink-install
+source install/setup.bash
 ```
 
 # Usage
+## rosbag2 to pcd
+`pointcloud_to_pcd.sh`を書き換えるためにエディタで開く
+```bash
+cd ~/pointcloud_annotation
+vim pointcloud_to_pcd.sh
+```
+
+各引数を変更する
+```sh
+#!/bin/bash
+
+ros2 run pcl_ros pointcloud_to_pcd --ros-args \
+    -r input:=/livox/lidar \      # トピック名
+    -p fixed_frame:=livox_frame \ # 座標系の基準
+    -p prefix:=/path/to/your/output/dir/path/filename_  # pcdファイルの保存先
+```
+
+`pointcloud_to_pcd.sh`を実行する
+```bash
+./pointcloud_to_pcd.sh
+```
+
+rosbag2を再生する
+```bash
+ros2 bag play yourbag
+```
+
+## Convert pcd to bat-3d format
+引数を指定して`convert_to_bat3d_format_pcd.py`を実行。
+```bash
+python3 convert_to_bat3d_format_pcd.py -i /path/to/your/pcd 
+```
+
+引数は以下の通り。
+| 引数 | 初期値 | 内容 |
+| --- | --- | --- |
+| `-i` or `--input` | - | pcdファイルが格納されているディレクトリまでのパスを指定。 |
+| `-s` or `--savename` | `convert_results` | 保存するディレクトリ名を指定。 |
+
+## Random sampling pcd & Convert filename
+
+
+## Remove the ground
+
