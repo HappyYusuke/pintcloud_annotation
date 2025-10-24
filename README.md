@@ -159,6 +159,9 @@
    * ウィンドウ左側のファイルツリーから`index.html`を右クリックしてください。
    * 「開く」 => 「ブラウザ」 => 「Chrome」の順に選択してください。（ブラウザはChrome以外でもOKです）
    * ブラウザでbat-3dが立ち上がります。
+
+> [!NOTE]
+> ライセンスを求められることがあるが、大学のメールアドレスがあれば[Student Pack](https://www.jetbrains.com/ja-jp/academy/student-pack/?_cl=MTsxOzE7Rmdic3U2Q1RhTThFR2k3eVRrMVRvV3ZnT2xMSGRJRWJMeU5EU0xDSVI5N3RjQ0xxZjJzMERlYmJZbWNDUVM3Rjs=#students)に登録して無料で利用できる。
    
 5. データの読み込み </br>
    * 画面右側の`Choose dataset`を「NuScenes」から自身で設定したデータセット名にしてください。（例：my_data）
