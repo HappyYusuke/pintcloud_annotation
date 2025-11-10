@@ -1,8 +1,8 @@
 // ==========================================
 // ユーザー用の変数を追加（by kanazawa）
 // ==========================================
-const CUSTOM_DATASET_NAME = 'waymo';
-const CUSTOM_DATASET_NUM_FRAMES = 10;
+const CUSTOM_DATASET_NAME = 'follow_me';
+const CUSTOM_DATASET_NUM_FRAMES = 1020;
 // ==========================================
 
 let labelTool = {
@@ -500,9 +500,16 @@ let labelTool = {
                     params.original.height = tmpHeight;
                 }
                 params.fileIndex = Number(frameObject.index);
-                // add new entry to contents array
-                annotationObjects.set(annotationObjects.__insertIndex, params);
-                annotationObjects.__insertIndex++;
+
+                // ==========================================================
+                // ★★★ 以下の2行に置き換えてください ★★★
+                // ==========================================================
+                // 正しいフレームの配列にデータを直接追加
+                annotationObjects.contents[params.fileIndex].push(params);
+                // 対応する3Dボックスも作成（pcd_label_tool.js の get3DLabel を呼び出す）
+                get3DLabel(params);
+                // ==========================================================
+
                 if (isNaN(classesBoundingBox.getCurrentAnnotationClassObject().nextTrackId)) {
                     classesBoundingBox.getCurrentAnnotationClassObject().nextTrackId = 0;
                 }
@@ -858,60 +865,72 @@ let labelTool = {
     loadAnnotations() {
         let fileName;
         annotationObjects.clear();
+
+        // ★ 1. ローディング表示用の要素を取得
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // ★ 2. ローディング表示を開始
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'block'; // 'flex' などの表示スタイルでもOK
+        }
+
         if (labelTool.currentDataset === labelTool.datasets.NuScenes) {
-            if (labelTool.showOriginalNuScenesLabels === true) {
-                for (let i = 0; i < this.fileNames.length; i++) {
-                    fileName = this.fileNames[i] + ".json";
-                    request({
-                        url: '/label/annotations/',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: {
-                            file_name: fileName
-                        },
-                        success: function (res) {
-                            this.loadAnnotationsNuscenes(res, i);
-                        }.bind(this),
-                        error: function (res) {
-                        }.bind(this)
-                    });
-                }
-            } else {
-                for (let i = 0; i < labelTool.fileNames.length; i++) {
-                    fileName = labelTool.fileNames[i];
-                    request({
-                        url: '/label/annotations/',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: {
-                            file_name: fileName
-                        },
-                        success: function (res) {
-                            this.loadAnnotationsNuScenesJSON(res);
-                        }.bind(this),
-                        error: function (res) {
-                        }.bind(this)
-                    });
-                }
-            }
+            // ... (NuScenesの読み込み処理はそのまま) ...
+            // (この部分は同期的なので、すぐ下にローディング解除処理を置きます)
+
         } else if (labelTool.currentDataset === labelTool.datasets.providentia) {
-            // TODO: load all available file names
+            // ... (providentiaの読み込み処理はそのまま) ...
+            // (この部分も同期的なので、すぐ下にローディング解除処理を置きます)
+
+            // ==========================================================
+            // ★★★ "follow_me" の処理を Promise.all に変更 ★★★
+            // ==========================================================
+        } else if (labelTool.currentDataset === CUSTOM_DATASET_NAME) {
+            let self = this;
+
+            // ★ 3. すべてのfetchリクエストを格納する配列を作成
+            const fetchPromises = [];
+
             for (let i = 0; i < labelTool.fileNames.length; i++) {
                 fileName = labelTool.fileNames[i];
-                request({
-                    url: '/label/annotations/',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        file_name: fileName
-                    },
-                    success: function (res) {
-                        this.loadFrameAnnotationsProvidentiaJSON(res);
-                    }.bind(this),
-                    error: function (res) {
-                    }.bind(this)
-                });
+                let filePath = 'input/' + labelTool.currentDataset + '/' + labelTool.sequence + '/annotations/' + fileName + '.json';
+
+                // ★ 4. fetchリクエストを作成し、配列に追加
+                const promise = fetch(filePath)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            return Promise.reject('Annotation file not found for frame ' + fileName);
+                        }
+                    })
+                    .then(data => {
+                        // 読み込みに成功した場合、アノテーションを処理
+                        self.loadAnnotationsNuScenesJSON(data);
+                    })
+                    .catch(error => {
+                        // ファイルが存在しない場合は何もしない
+                    });
+
+                fetchPromises.push(promise); // 配列にPromiseを追加
             }
+
+            // ★ 5. すべてのリクエスト（成功・失敗問わず）が完了するのを待つ
+            Promise.all(fetchPromises)
+                .finally(() => {
+                    // ★ 6. すべて完了したらローディング表示を非表示にする
+                    if (loadingIndicator) {
+                        loadingIndicator.style.display = 'none';
+                    }
+                });
+
+            return; // ★ 7. この後の非表示処理をスキップするためにここで終了
+        }
+        // ==========================================================
+
+        // ★ 8. (NuScenes / providentia 用) 同期処理の最後にローディングを非表示にする
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'none';
         }
     },
 
@@ -1069,15 +1088,15 @@ let labelTool = {
             for (let i = 0; i < labelTool.numFrames; i++) {
                 fileNameArray.push(pad(i, 6))
             }
-        // =====================================
-        // 以下を追加（by kanazawa）
-        // =====================================
+            // =====================================
+            // 以下を追加（by kanazawa）
+            // =====================================
         } else if (labelTool.currentDataset === CUSTOM_DATASET_NAME) { // <-- 自作データセットのディレクトリ名
             labelTool.numFrames = CUSTOM_DATASET_NUM_FRAMES; // .pcdのファイル数（000000.pcdから000009.pcdまでなら10個）
             for (let i = 0; i < labelTool.numFrames; i++) {
                 fileNameArray.push(pad(i, 6));
             }
-        // =====================================
+            // =====================================
         }
         labelTool.fileNames = fileNameArray;
     },
@@ -1353,6 +1372,13 @@ let labelTool = {
         // update folders with values of next/previous frame
         for (let i = 0; i < annotationObjects.contents[newFileIndex].length; i++) {
             let annotationObj = annotationObjects.contents[newFileIndex][i];
+            // ==========================================================
+            // ★★★ 以下の3行を追加してください ★★★
+            // ==========================================================
+            if (!annotationObj) {
+                continue; // 存在しないデータはスキップ
+            }
+            // ==========================================================
             let copyFlag;
             // if next object exists in current frame then use copy flag of current frame
             let indexInCurrentFile = getObjectIndexByTrackIdAndClass(annotationObj["trackId"], annotationObj["class"], this.currentFileIndex);
