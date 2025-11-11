@@ -96,7 +96,8 @@ let keyboardNavigation = false;
 let canvas3D;
 let pointSizeCurrent = 0.05;
 let pointSizeMax = 1;
-let defaultBoxHeight = 1.468628;
+let defaultBoxHeight = 1.7;
+let defaultZCenter = 0.7;
 let gridSize = 200;
 
 let parameters = {
@@ -2647,11 +2648,10 @@ function mouseUpLogic(ev) {
                 addBboxParameters.class = classesBoundingBox.getCurrentClass();
                 addBboxParameters.x = xPos;
                 addBboxParameters.y = yPos;
-                if (labelTool.currentDataset === labelTool.datasets.providentia) {
-                    addBboxParameters.z = zPos + defaultBoxHeight / 2 - labelTool.positionLidar[2];
-                } else {
-                    addBboxParameters.z = zPos + defaultBoxHeight / 2 - labelTool.positionLidarNuscenes[2];
-                }
+
+                // bboxのz軸初期値
+                addBboxParameters.z = defaultZCenter;
+
                 addBboxParameters.width = Math.abs(groundPointMouseUp.x - groundPointMouseDown.x);
                 addBboxParameters.length = Math.abs(groundPointMouseUp.y - groundPointMouseDown.y);
                 addBboxParameters.height = defaultBoxHeight;
@@ -2662,7 +2662,7 @@ function mouseUpLogic(ev) {
                     class: classesBoundingBox.getCurrentClass(),
                     x: (groundPointMouseUp.x + groundPointMouseDown.x) / 2,
                     y: (groundPointMouseUp.y + groundPointMouseDown.y) / 2,
-                    z: zPos + defaultBoxHeight / 2 - labelTool.positionLidarNuscenes[2],
+                    z: defaultZCenter,
                     width: Math.abs(groundPointMouseUp.x - groundPointMouseDown.x),
                     length: Math.abs(groundPointMouseUp.y - groundPointMouseDown.y),
                     height: defaultBoxHeight,
