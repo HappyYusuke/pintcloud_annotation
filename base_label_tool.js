@@ -1,5 +1,5 @@
 // ==========================================
-// ユーザー用の変数を追加（by kanazawa）
+// ユーザー用の変数を追加
 // ==========================================
 const CUSTOM_DATASET_NAME = 'follow_me';
 const CUSTOM_DATASET_NUM_FRAMES = 1020;
@@ -502,7 +502,7 @@ let labelTool = {
                 params.fileIndex = Number(frameObject.index);
 
                 // ==========================================================
-                // ★★★ 以下の2行に置き換えてください ★★★
+                // バウンディングボックスを参照できるように改良
                 // ==========================================================
                 // 正しいフレームの配列にデータを直接追加
                 annotationObjects.contents[params.fileIndex].push(params);
@@ -883,7 +883,7 @@ let labelTool = {
             // (この部分も同期的なので、すぐ下にローディング解除処理を置きます)
 
             // ==========================================================
-            // ★★★ "follow_me" の処理を Promise.all に変更 ★★★
+            // ラベル情報（JSONファイル）を読み込む
             // ==========================================================
         } else if (labelTool.currentDataset === CUSTOM_DATASET_NAME) {
             let self = this;
@@ -1089,7 +1089,7 @@ let labelTool = {
                 fileNameArray.push(pad(i, 6))
             }
             // =====================================
-            // 以下を追加（by kanazawa）
+            // 自作データセットを変数で指定できるように
             // =====================================
         } else if (labelTool.currentDataset === CUSTOM_DATASET_NAME) { // <-- 自作データセットのディレクトリ名
             labelTool.numFrames = CUSTOM_DATASET_NUM_FRAMES; // .pcdのファイル数（000000.pcdから000009.pcdまでなら10個）
@@ -1373,7 +1373,7 @@ let labelTool = {
         for (let i = 0; i < annotationObjects.contents[newFileIndex].length; i++) {
             let annotationObj = annotationObjects.contents[newFileIndex][i];
             // ==========================================================
-            // ★★★ 以下の3行を追加してください ★★★
+            // 存在しないラベルをスキップ
             // ==========================================================
             if (!annotationObj) {
                 continue; // 存在しないデータはスキップ

@@ -1,6 +1,12 @@
 {
   "datasets": [
     {
+      "name": "waymo",
+      "sequences": ["20251015_waymo"],
+      "classes": ["Car", "Truck", "Motorcycle", "Bicycle", "Pedestrian"],
+      "class_colors": ["#51C38C", "#EBCF36", "#B9A454", "#B18CFF", "#E976F9"]
+    },
+    {
       "name": "NuScenes",
       "sequences": [
         "ONE"
@@ -71,12 +77,6 @@
         "pedestrian"
       ],
       "class_colors": ["#51C38C", "#EBCF36","#FF604B", "#F37CB2","#7d74f5", "#BC7C52","#74BAF5"]
-    },
-    {
-      "name": "waymo",
-      "sequences": ["20251015_waymo"],
-      "classes": ["Car", "Truck", "Motorcycle", "Bicycle", "Pedestrian"],
-      "class_colors": ["#51C38C", "#EBCF36", "#B9A454", "#B18CFF", "#E976F9"]
     }
   ]
 }
