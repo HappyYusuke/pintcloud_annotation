@@ -7,11 +7,11 @@
 * 点群のみのアノテーション
 
 内容物
-* base_label_tools.js, config.json
+* `base_label_tools.js`, `config.json`
   > bat-3dの設定ファイルたち。
-* input
+* `input`
   > bat-3dに入れるデータのファイルツリー
-* tools
+* `tools`
   > 点群のファイルの形式を変換するためのツール (READMEあり)
 
 
@@ -124,10 +124,10 @@
    
 2. 設定ファイルの編集 </br>
    `bat-3d/config/config.json`の以下の部分を書き換えてください。
-   * name: ディレクトリ名（例：my_data）
-   * sequences: シーケンス名（例：20251015_my_data）
-   * classes: アノテーションするクラス
-   * class_colors: バウンディングボックスの色
+   * `name`: ディレクトリ名（例：my_data）
+   * `sequences`: シーケンス名（例：20251015_my_data）
+   * `classes`: アノテーションするクラス
+   * `class_colors`: バウンディングボックスの色
    ```json
    {
       "name": "waymo",
@@ -142,7 +142,7 @@
    * CUSTOM_DATASET_NUM_FRAMES: 点群のデータ数
    ```js
    // ==========================================
-   // ユーザー用の変数を追加（by kanazawa）
+   // ユーザー用の変数を追加
    // ==========================================
    const CUSTOM_DATASET_NAME = 'waymo';
    const CUSTOM_DATASET_NUM_FRAMES = 5;
