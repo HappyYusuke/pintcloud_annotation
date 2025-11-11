@@ -161,13 +161,31 @@
    * ウィンドウ左側のファイルツリーから`index.html`を右クリックしてください。
    * 「開く」 => 「ブラウザ」 => 「Chrome」の順に選択してください。（ブラウザはChrome以外でもOKです）
    * ブラウザでbat-3dが立ち上がります。
+   * すでにラベル情報 (JSONファイル) がある場合は、`Loading Annotations ...` と表示されます。
 
 > [!NOTE]
 > ライセンスを求められることがあるが、大学のメールアドレスがあれば[Student Pack](https://www.jetbrains.com/ja-jp/academy/student-pack/?_cl=MTsxOzE7Rmdic3U2Q1RhTThFR2k3eVRrMVRvV3ZnT2xMSGRJRWJMeU5EU0xDSVI5N3RjQ0xxZjJzMERlYmJZbWNDUVM3Rjs=#students)に登録して無料で利用できる。
-   
-**5. データの読み込み** </br>
-   * 画面右側の`Choose dataset`を「NuScenes」から自身で設定したデータセット名にしてください。（例：my_data）
-   * １個下の`Choose Sequence`を「ONE」から自身で設定したシーケンス名にしてください。（例：20251015_my_data）
-   * データが表示されまず。
 
 ## How to Annotation
+1. `Select View`が`orthographic`の状態でマウスを左クリックしたままスライドする。<br>
+すると、バウンディングボックスが表示される。
+
+<img width="400" height="1049" alt="image" src="https://github.com/user-attachments/assets/e368b190-e174-4fde-a900-24c1062322b5" />
+
+</br>
+</br>
+
+2. `Cキー`で`Select View`を`perspective`に変更。<br>
+マウス操作で視点を変えながらバウンディングボックスの微調整をする。
+
+<img width="400" height="1049" alt="image" src="https://github.com/user-attachments/assets/3a050078-2cb1-4a73-9e1f-854e148115a3" />
+
+</br>
+</br>
+
+3. `>`マークをクリックして次のフレームに移動
+
+4. 1.〜3.を繰り返す。
+
+5. `Download Annotations`をクリックする。<br>
+ZIPファイルをダウンロードすると、ラベルファイル (JSON) を保存できる。
