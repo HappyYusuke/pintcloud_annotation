@@ -7,7 +7,7 @@
 * 点群のみのアノテーション
 
 内容物
-* `base_label_tools.js`, `config.json`
+* `base_label_tools.js`, `config.json`, `index.html`
   > bat-3dの設定ファイルたち。
 * `input`
   > bat-3dに入れるデータのファイルツリー
