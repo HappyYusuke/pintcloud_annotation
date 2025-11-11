@@ -52,11 +52,12 @@
    cd $HOME
 
    # 元のファイルを削除
-   rm bat-3d/js/base_label_tool.js bat-3d/config/config.json
+   rm bat-3d/js/base_label_tool.js bat-3d/config/config.json bat-3d/index.html
 
    # 本リポジトリのファイルを移動
    mv pointcloud_annotation/base_label_tool.js bat-3d/js
    mv pointcloud_annotation/config.json bat-3d/config
+   mv pointcloud_annotation/index.html bat-3d
    ```
    
 7. npmで必要なパッケージをインストール
