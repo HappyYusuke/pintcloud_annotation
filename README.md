@@ -16,7 +16,7 @@
 
 
 # Installation
-1. bat-3dと本リポジトリをクローン
+**1. bat-3dと本リポジトリをクローン**
    ```bash
    # bat-3d
    git clone https://github.com/walzimmer/bat-3d.git
@@ -25,16 +25,16 @@
    git clone https://github.com/HappyYusuke/pointcloud_annotation.git
    ```
    
-2. npmをインストール
+**2. npmをインストール**
    ```bash
    sudo apt install npm
    ```
    
-3. PHP Stormをダウンロード</br>
+**3. PHP Stormをダウンロード**</br>
    以下URLからダウンロード（ウィンドウが立ち上がります）</br>
    https://www.jetbrains.com/phpstorm/download/download-thanks.html
    
-5. ファイルを解凍
+**4. ファイルを解凍**
    ```bash
    # ダウンロード先に移動
    cd $HOME/Downloads
@@ -46,7 +46,7 @@
    mv PhpStorm-252.26830.95 $HOME
    ```
    
-6. 本リポジトリのファイルと置換
+**5. 本リポジトリのファイルと置換**
    ```bash
    # ホームディレクトリに移動
    cd $HOME
@@ -60,7 +60,7 @@
    mv pointcloud_annotation/index.html bat-3d
    ```
    
-7. npmで必要なパッケージをインストール
+**6. npmで必要なパッケージをインストール**
    ```bash
    # bat-3dに移動
    cd $HOME/bat-3d
@@ -71,7 +71,7 @@
 
 # Usage
 ## Setup
-1. 独自データを配置 </br>
+**1. 独自データを配置** </br>
    本家のREADME通りにファイルツリーを構成し、独自データを格納します。
    <details>
       <summary>ファイルツリーはこちらを参照</summary>
@@ -123,7 +123,7 @@
    cp /path/to/your/data_directory/*.pcd input/my_data/20251015_my_data/pointclouds
    ```
    
-2. 設定ファイルの編集 </br>
+**2. 設定ファイルの編集** </br>
    `bat-3d/config/config.json`の以下の部分を書き換えてください。
    * `name`: ディレクトリ名（例：my_data）
    * `sequences`: シーケンス名（例：20251015_my_data）
@@ -150,13 +150,13 @@
    // ==========================================
    ```
    
-3. PHP Storm起動 </br>
+**3. PHP Storm起動** </br>
    設定ファイルの変更を保存したら、PHP Stormを起動します。
    ```bash
    bash $HOME/PhpStorm-252.26830.95/bin/phpstorm.sh
    ```
    
-4. bat-3d起動 </br>
+**4. bat-3d起動** </br>
    * PHP Stormのウィンドウが立ち上がったら、PHP Stormから`bat-3d`のディレクトリを開いてください。
    * ウィンドウ左側のファイルツリーから`index.html`を右クリックしてください。
    * 「開く」 => 「ブラウザ」 => 「Chrome」の順に選択してください。（ブラウザはChrome以外でもOKです）
@@ -165,7 +165,7 @@
 > [!NOTE]
 > ライセンスを求められることがあるが、大学のメールアドレスがあれば[Student Pack](https://www.jetbrains.com/ja-jp/academy/student-pack/?_cl=MTsxOzE7Rmdic3U2Q1RhTThFR2k3eVRrMVRvV3ZnT2xMSGRJRWJMeU5EU0xDSVI5N3RjQ0xxZjJzMERlYmJZbWNDUVM3Rjs=#students)に登録して無料で利用できる。
    
-5. データの読み込み </br>
+**5. データの読み込み** </br>
    * 画面右側の`Choose dataset`を「NuScenes」から自身で設定したデータセット名にしてください。（例：my_data）
    * １個下の`Choose Sequence`を「ONE」から自身で設定したシーケンス名にしてください。（例：20251015_my_data）
    * データが表示されまず。
