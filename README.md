@@ -1,4 +1,10 @@
 # pointcloud_annotation
+
+<img width="800" height="1049" alt="image" src="https://github.com/user-attachments/assets/5e5c0eba-5ef9-4d95-8725-cfd36ed86204" />
+
+<br>
+<br>
+
 本リポジトリは、[bat-3d](https://github.com/walzimmer/bat-3d.git)のREADMEに情報が足りないため作成しました。
 最初に[3d-bat](https://github.com/walzimmer/3d-bat.git)を試しましたが、動作しなかったのでbat-3dの使い方を説明します。
 本リポジトリで想定している使用方法は以下の通りですが、本家のREADMEによるとWindowsでも使用できるようです。
@@ -14,6 +20,18 @@
 * `tools`
   > 点群のファイルの形式を変換するためのツール (READMEあり)
 
+<br>
+
+# Requirements
+本リポジトリで想定している環境は以下の通りです。
+
+| 項目 | 要件 |
+| --- | --- |
+| PC | GPUあり（NVIDIA） |
+| OS | Ubuntu22.04 (Windows11でも動作します) |
+| Browser | Chrome |
+
+<br>
 
 # Installation
 **1. bat-3dと本リポジトリをクローン**
@@ -68,6 +86,8 @@
    # パッケージをインストール
    npm install
    ```
+
+<br>
 
 # Usage
 ## Setup
@@ -189,3 +209,21 @@
 
 5. `Download Annotations`をクリックする。<br>
 ZIPファイルをダウンロードすると、ラベルファイル (JSON) を保存できる。
+
+6. 保存したラベルファイル (JSON) をアノテーションした分だけ`annotation`ディレクトリに移動する。
+
+<br>
+
+# Troubleshooting
+## `Loading Annotations ...`で止まる
+ここでは、**Chrome**を使用している前提で進めます。
+
+1.  Chromeのアドレスバーに`chrome://settings/system`と入力します。
+2.  「**Use hardware acceleration when available** (ハードウェアアクセラレーションが使用可能な場合は使用する)」の設定を探します。
+3.  もし設定がONの場合は、一度OFFにしChromeを再起動 => 再度ONにしChromeを再起動。
+4.  もし設定がOFFの場合は、ONにし再起動。
+
+> [!NOTE]
+> アクセラレーションは`chrome://gpu`で確認できます。<br>
+> `WebGL`および`WebGL2`の項目が`Hardware accelerated`と表示されていればGPUが正しく動作しています。
+
