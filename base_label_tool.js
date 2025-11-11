@@ -502,7 +502,7 @@ let labelTool = {
                 params.fileIndex = Number(frameObject.index);
 
                 // ==========================================================
-                // バウンディングボックスを参照できるように改良
+                // ★★★ 以下の2行に置き換えてください ★★★
                 // ==========================================================
                 // 正しいフレームの配列にデータを直接追加
                 annotationObjects.contents[params.fileIndex].push(params);
@@ -883,7 +883,7 @@ let labelTool = {
             // (この部分も同期的なので、すぐ下にローディング解除処理を置きます)
 
             // ==========================================================
-            // ラベル情報（JSONファイル）を読み込む
+            // ★★★ "follow_me" の処理を Promise.all に変更 ★★★
             // ==========================================================
         } else if (labelTool.currentDataset === CUSTOM_DATASET_NAME) {
             let self = this;
@@ -1089,7 +1089,7 @@ let labelTool = {
                 fileNameArray.push(pad(i, 6))
             }
             // =====================================
-            // 自作データセットを変数で指定できるように
+            // 以下を追加（by kanazawa）
             // =====================================
         } else if (labelTool.currentDataset === CUSTOM_DATASET_NAME) { // <-- 自作データセットのディレクトリ名
             labelTool.numFrames = CUSTOM_DATASET_NUM_FRAMES; // .pcdのファイル数（000000.pcdから000009.pcdまでなら10個）
@@ -1373,7 +1373,7 @@ let labelTool = {
         for (let i = 0; i < annotationObjects.contents[newFileIndex].length; i++) {
             let annotationObj = annotationObjects.contents[newFileIndex][i];
             // ==========================================================
-            // 存在しないラベルをスキップ
+            // ★★★ 以下の3行を追加してください ★★★
             // ==========================================================
             if (!annotationObj) {
                 continue; // 存在しないデータはスキップ

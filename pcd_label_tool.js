@@ -993,45 +993,54 @@ function addBoundingBoxGui(bbox, bboxEndParams) {
         }
     });
     cubeWidth.onChange(function (value) {
-        for (let i = 0; i < labelTool.numFrames; i++) {
-            let selectionIndex = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, i);
-            if (selectionIndex !== -1) {
-                let newXPos = labelTool.cubeArray[i][selectionIndex].position.x + (value - labelTool.cubeArray[i][selectionIndex].scale.x) * Math.cos(labelTool.cubeArray[i][selectionIndex].rotation.z) / 2;
-                labelTool.cubeArray[i][selectionIndex].position.x = newXPos;
-                if (i === labelTool.currentFileIndex) {
-                    bbox.x = newXPos;
-                }
-                annotationObjects.contents[i][selectionIndex]["x"] = newXPos;
-                let newYPos = labelTool.cubeArray[i][selectionIndex].position.y + (value - labelTool.cubeArray[i][selectionIndex].scale.x) * Math.sin(labelTool.cubeArray[i][selectionIndex].rotation.z) / 2;
-                labelTool.cubeArray[i][selectionIndex].position.y = newYPos;
-                if (i === labelTool.currentFileIndex) {
-                    bbox.y = newYPos;
-                }
-                annotationObjects.contents[i][selectionIndex]["y"] = newYPos;
-                labelTool.cubeArray[i][selectionIndex].scale.x = value;
-                annotationObjects.contents[i][selectionIndex]["width"] = value;
-            }
+        // ★ 修正：現在のフレームのインデックスのみを取得
+        let selectionIndex = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, labelTool.currentFileIndex);
+
+        if (selectionIndex !== -1) {
+            // ★ 修正： `i` を `labelTool.currentFileIndex` に変更
+            let newXPos = labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.x + (value - labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].scale.x) * Math.cos(labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].rotation.z) / 2;
+            labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.x = newXPos;
+
+            // ★★★ 削除： bbox.x = newXPos; ★★★
+
+            annotationObjects.contents[labelTool.currentFileIndex][selectionIndex]["x"] = newXPos;
+
+            let newYPos = labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.y + (value - labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].scale.x) * Math.sin(labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].rotation.z) / 2;
+            labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.y = newYPos;
+
+            // ★★★ 削除： bbox.y = newYPos; ★★★
+
+            annotationObjects.contents[labelTool.currentFileIndex][selectionIndex]["y"] = newYPos;
+            labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].scale.x = value;
+            annotationObjects.contents[labelTool.currentFileIndex][selectionIndex]["width"] = value;
         }
+
         if (labelTool.pointCloudOnlyAnnotation === false) {
             let selectionIndexCurrentFrame = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, labelTool.currentFileIndex);
             update2DBoundingBox(labelTool.currentFileIndex, selectionIndexCurrentFrame, true);
         }
     });
     cubeLength.onChange(function (value) {
-        for (let i = 0; i < labelTool.numFrames; i++) {
-            let selectionIndex = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, i);
-            if (selectionIndex !== -1) {
-                let newXPos = labelTool.cubeArray[i][selectionIndex].position.x + (value - labelTool.cubeArray[i][selectionIndex].scale.y) * Math.sin(labelTool.cubeArray[i][selectionIndex].rotation.z) / 2;
-                labelTool.cubeArray[i][selectionIndex].position.x = newXPos;
-                bbox.x = newXPos;
-                annotationObjects.contents[i][selectionIndex]["x"] = newXPos;
-                let newYPos = labelTool.cubeArray[i][selectionIndex].position.y - (value - labelTool.cubeArray[i][selectionIndex].scale.y) * Math.cos(labelTool.cubeArray[i][selectionIndex].rotation.z) / 2;
-                labelTool.cubeArray[i][selectionIndex].position.y = newYPos;
-                bbox.y = newYPos;
-                annotationObjects.contents[i][selectionIndex]["y"] = newYPos;
-                labelTool.cubeArray[i][selectionIndex].scale.y = value;
-                annotationObjects.contents[i][selectionIndex]["length"] = value;
-            }
+        // ★ 修正：現在のフレームのインデックスのみを取得
+        let selectionIndex = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, labelTool.currentFileIndex);
+
+        if (selectionIndex !== -1) {
+            // ★ 修正： `i` を `labelTool.currentFileIndex` に変更
+            let newXPos = labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.x + (value - labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].scale.y) * Math.sin(labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].rotation.z) / 2;
+            labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.x = newXPos;
+
+            // ★★★ 削除： bbox.x = newXPos; ★★★
+
+            annotationObjects.contents[labelTool.currentFileIndex][selectionIndex]["x"] = newXPos;
+
+            let newYPos = labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.y - (value - labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].scale.y) * Math.cos(labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].rotation.z) / 2;
+            labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.y = newYPos;
+
+            // ★★★ 削除： bbox.y = newYPos; ★★★
+
+            annotationObjects.contents[labelTool.currentFileIndex][selectionIndex]["y"] = newYPos;
+            labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].scale.y = value;
+            annotationObjects.contents[labelTool.currentFileIndex][selectionIndex]["length"] = value;
         }
         if (labelTool.pointCloudOnlyAnnotation === false) {
             let selectionIndexCurrent = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, labelTool.currentFileIndex);
@@ -1039,15 +1048,18 @@ function addBoundingBoxGui(bbox, bboxEndParams) {
         }
     });
     cubeHeight.onChange(function (value) {
-        for (let i = 0; i < labelTool.numFrames; i++) {
-            let selectionIndex = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, i);
-            if (selectionIndex !== -1) {
-                let newZPos = labelTool.cubeArray[i][selectionIndex].position.z + (value - labelTool.cubeArray[i][selectionIndex].scale.z) / 2;
-                labelTool.cubeArray[i][selectionIndex].position.z = newZPos;
-                bbox.z = newZPos;
-                labelTool.cubeArray[i][selectionIndex].scale.z = value;
-                annotationObjects.contents[i][selectionIndex]["height"] = value;
-            }
+        // ★ 修正：現在のフレームのインデックスのみを取得
+        let selectionIndex = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, labelTool.currentFileIndex);
+
+        if (selectionIndex !== -1) {
+            // ★ 修正： `i` を `labelTool.currentFileIndex` に変更
+            let newZPos = labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.z + (value - labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].scale.z) / 2;
+            labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].position.z = newZPos;
+
+            // ★★★ 削除： bbox.z = newZPos; ★★★
+
+            labelTool.cubeArray[labelTool.currentFileIndex][selectionIndex].scale.z = value;
+            annotationObjects.contents[labelTool.currentFileIndex][selectionIndex]["height"] = value;
         }
         if (labelTool.pointCloudOnlyAnnotation === false) {
             let selectionIndexCurrent = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, labelTool.currentFileIndex);
@@ -1505,7 +1517,7 @@ function keyDownHandler(event) {
                 break;
 
             // ==========================================================
-            // 右クリックではなくdeleteキーでbboxを削除する
+            // Deleteキーでbboxを削除
             // ==========================================================
             case 46: // Deleteキー
             case 8:  // Backspaceキー
