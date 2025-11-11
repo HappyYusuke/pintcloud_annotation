@@ -69,6 +69,7 @@
    ```
 
 # Usage
+## Setup
 1. 独自データを配置 </br>
    本家のREADME通りにファイルツリーを構成し、独自データを格納します。
    <details>
@@ -167,5 +168,5 @@
    * 画面右側の`Choose dataset`を「NuScenes」から自身で設定したデータセット名にしてください。（例：my_data）
    * １個下の`Choose Sequence`を「ONE」から自身で設定したシーケンス名にしてください。（例：20251015_my_data）
    * データが表示されまず。
-   
-6.  アノテーション（Comming soon ...）
+
+## How to Annotation
