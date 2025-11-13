@@ -2926,7 +2926,7 @@ function initViews() {
             up: [1, 0, 0],
             fov: 70,
             updateCamera: function (camera, scene, objectPosition) {
-                camera.position.set(objectPosition.x, objectPosition.y, objectPosition.z + 10);
+                camera.position.set(objectPosition.x, objectPosition.y, objectPosition.z + 1);
                 camera.lookAt(objectPosition);
             }
         }
